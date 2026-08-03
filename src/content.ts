@@ -112,23 +112,6 @@ export const projects: readonly Project[] = [
     live: "https://maria2525007.github.io/raketa/",
     source: "https://github.com/Maria2525007/raketa",
   },
-  {
-    index: "02",
-    title: "AMA Community",
-    client: "Private members’ club",
-    kind: "Concept site",
-    year: "2026",
-    image: "/case-ama.jpg",
-    alt: "AMA Community concept site — full-screen forest scene with a serif headline",
-    challenge:
-      "A closed community for people who travel, collect culture, and care how they live. The first stage had one job: convince the founders to commission the full site. Selling memberships came later, so the usual pricing blocks had to go.",
-    approach:
-      "Scrollytelling instead of stacked sections. Every scene pins to the viewport and a scroll engine maps progress to parallax, photo cross-fades, rotating type, and a mask reveal. Deep green dominates, sand is the rare light, sienna is the only accent.",
-    outcome:
-      "The whole scroll engine is 139 lines of vanilla JavaScript — no animation library, nothing to keep updated.",
-    live: "https://maria2525007.github.io/ama/",
-    source: "https://github.com/Maria2525007/ama",
-  },
 ];
 
 export const process = [

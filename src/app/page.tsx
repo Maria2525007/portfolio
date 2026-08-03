@@ -12,6 +12,8 @@ const nav = [
   { href: "#contact", label: "Contact" },
 ];
 
+const tickerItems = services.flatMap((s) => [s.title, `${s.timeline} delivery`]);
+
 function SectionHeading({
   index,
   eyebrow,
@@ -22,10 +24,10 @@ function SectionHeading({
   title: string;
 }) {
   return (
-    <div className="reveal flex items-baseline gap-5 border-t border-rule pt-5">
-      <span className="eyebrow shrink-0 tabular-nums">{index}</span>
-      <span className="eyebrow shrink-0">{eyebrow}</span>
-      <span aria-hidden className="hidden h-px flex-1 bg-rule sm:block" />
+    <div className="reveal flex items-center gap-4 border-t border-line pt-5">
+      <span className="label label-accent tabular-nums">{index}</span>
+      <span className="label">{eyebrow}</span>
+      <span aria-hidden className="hidden h-px flex-1 bg-line sm:block" />
       <h2 className="sr-only">{title}</h2>
     </div>
   );
@@ -36,12 +38,12 @@ export default function Home() {
     <>
       <ScrollReveal />
 
-      <header className="sticky top-0 z-30 border-b border-rule/70 bg-paper/85 backdrop-blur-md">
+      <header className="sticky top-0 z-30 border-b border-line bg-bg/80 backdrop-blur-xl">
         <nav
           aria-label="Main"
           className="mx-auto flex max-w-[1180px] items-center justify-between gap-6 px-5 py-4 sm:px-8"
         >
-          <a href="#top" className="display text-xl leading-none sm:text-2xl">
+          <a href="#top" className="display text-base sm:text-lg">
             {site.name}
           </a>
           <div className="hidden items-center gap-8 md:flex">
@@ -49,7 +51,7 @@ export default function Home() {
               <a
                 key={item.href}
                 href={item.href}
-                className="link-rule text-sm text-ink-muted transition-colors hover:text-ink"
+                className="link-rule font-mono text-xs tracking-[0.12em] text-muted uppercase transition-colors hover:text-accent"
               >
                 {item.label}
               </a>
@@ -59,24 +61,27 @@ export default function Home() {
             href={tg}
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 border border-accent px-4 py-2 text-xs font-medium tracking-[0.14em] text-accent uppercase transition-colors hover:bg-accent hover:text-paper"
+            className="glow-accent shrink-0 bg-accent px-4 py-2 font-mono text-xs font-medium tracking-[0.12em] text-accent-ink uppercase hover:bg-accent-dim"
           >
-            Telegram
+            Hire me
           </a>
         </nav>
       </header>
 
-      <main id="top" className="relative z-10 mx-auto w-full max-w-[1180px] px-5 sm:px-8">
+      <main id="top" className="relative z-10 w-full">
         {/* ── Hero ───────────────────────────────────────────────── */}
-        <section className="grid gap-12 pt-16 pb-20 sm:pt-24 lg:grid-cols-12 lg:gap-10 lg:pt-32 lg:pb-32">
+        <section className="mx-auto grid max-w-[1180px] gap-12 px-5 pt-16 pb-16 sm:px-8 sm:pt-24 lg:grid-cols-12 lg:gap-10 lg:pt-28">
           <div className="lg:col-span-7">
-            <p className="eyebrow reveal">{hero.eyebrow}</p>
-            <h1 className="display reveal mt-7 text-[clamp(2.75rem,9vw,5.75rem)]">
+            <p className="label reveal flex items-center gap-2.5">
+              <span aria-hidden className="inline-block size-1.5 bg-accent" />
+              {hero.eyebrow}
+            </p>
+            <h1 className="display reveal mt-7 text-[clamp(2.6rem,8.4vw,5.5rem)]">
               {hero.headlineLead}{" "}
-              <em className="text-accent italic">{hero.headlineAccent}</em>
+              <span className="text-accent">{hero.headlineAccent}</span>
               {hero.headlineTail}
             </h1>
-            <p className="reveal mt-8 max-w-xl text-lg leading-relaxed text-pretty text-ink-muted">
+            <p className="reveal mt-8 max-w-xl text-lg leading-relaxed text-pretty text-muted">
               {hero.lede}
             </p>
             <div className="reveal mt-10 flex flex-wrap items-center gap-4">
@@ -84,13 +89,13 @@ export default function Home() {
                 href={tg}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-accent px-7 py-3.5 text-sm font-medium tracking-[0.1em] text-paper uppercase transition-colors hover:bg-accent-soft"
+                className="glow-accent bg-accent px-7 py-3.5 font-mono text-sm font-medium tracking-[0.08em] text-accent-ink uppercase hover:bg-accent-dim"
               >
                 Start a project
               </a>
               <a
                 href="#work"
-                className="link-rule py-3.5 text-sm font-medium tracking-[0.1em] text-ink uppercase"
+                className="border border-line-bright px-7 py-3.5 font-mono text-sm tracking-[0.08em] text-text uppercase transition-colors hover:border-accent hover:text-accent"
               >
                 See the work
               </a>
@@ -98,234 +103,265 @@ export default function Home() {
           </div>
 
           <div className="reveal lg:col-span-4 lg:col-start-9">
-            <div className="relative aspect-4/5 w-full max-w-sm overflow-hidden border border-rule lg:max-w-none">
+            <div className="relative aspect-4/5 w-full max-w-sm overflow-hidden border border-line-bright bg-surface lg:max-w-none">
               <Image
                 src="/maria.jpg"
                 alt={`${site.name}, ${site.role.toLowerCase()}`}
                 fill
                 priority
                 sizes="(max-width: 1024px) 384px, 33vw"
-                className="object-cover object-[30%_center] contrast-[1.04] saturate-[0.85]"
+                className="object-cover object-[30%_center] contrast-[1.08]"
               />
-            </div>
-            <p className="eyebrow mt-4">
-              {site.name} — {site.role}
-            </p>
-          </div>
-        </section>
-
-        {/* ── About ──────────────────────────────────────────────── */}
-        <section id="about" className="scroll-mt-24 pb-20 sm:pb-28">
-          <SectionHeading index="00" eyebrow="About" title="About" />
-          <div className="mt-10 grid gap-8 lg:grid-cols-12">
-            <p className="reveal display text-[clamp(1.6rem,3.4vw,2.4rem)] lg:col-span-6">
-              {about[0]}
-            </p>
-            <div className="reveal space-y-5 text-base leading-relaxed text-ink-muted lg:col-span-5 lg:col-start-8">
-              <p>{about[1]}</p>
-              <p>{about[2]}</p>
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg from-2% via-bg/55 via-22% to-transparent to-52%"
+              />
+              <p className="label label-bright absolute bottom-3 left-3">
+                {site.name} / {site.role}
+              </p>
             </div>
           </div>
         </section>
 
-        {/* ── Work ───────────────────────────────────────────────── */}
-        <section id="work" className="scroll-mt-24 pb-20 sm:pb-28">
-          <SectionHeading index="01" eyebrow="Selected work" title="Selected work" />
+        {/* ── Ticker ─────────────────────────────────────────────── */}
+        <div
+          aria-hidden
+          className="overflow-hidden border-y border-line bg-surface/60 py-3.5"
+        >
+          <div className="ticker">
+            {[0, 1].map((copy) => (
+              <div key={copy} className="flex shrink-0 items-center">
+                {tickerItems.map((item, i) => (
+                  <span key={`${copy}-${i}`} className="flex items-center">
+                    <span className="label px-6 whitespace-nowrap">{item}</span>
+                    <span className="size-1 shrink-0 bg-accent" />
+                  </span>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
 
-          <div className="mt-12 space-y-24 sm:space-y-32">
-            {projects.map((project) => (
-              <article key={project.index} className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-                <div className="reveal lg:col-span-7">
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group block overflow-hidden border border-rule"
-                  >
-                    <Image
-                      src={project.image}
-                      alt={project.alt}
-                      width={1600}
-                      height={1000}
-                      sizes="(max-width: 1024px) 100vw, 58vw"
-                      className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-                    />
-                  </a>
-                </div>
+        <div className="mx-auto w-full max-w-[1180px] px-5 sm:px-8">
+          {/* ── About ────────────────────────────────────────────── */}
+          <section id="about" className="scroll-mt-24 pt-20 pb-20 sm:pt-28 sm:pb-28">
+            <SectionHeading index="00" eyebrow="About" title="About" />
+            <div className="mt-10 grid gap-8 lg:grid-cols-12">
+              <p className="reveal display-soft text-[clamp(1.5rem,3.2vw,2.25rem)] lg:col-span-6">
+                {about[0]}
+              </p>
+              <div className="reveal space-y-5 text-base leading-relaxed text-muted lg:col-span-5 lg:col-start-8">
+                <p>{about[1]}</p>
+                <p>{about[2]}</p>
+              </div>
+            </div>
+          </section>
 
-                <div className="reveal lg:col-span-5">
-                  <div className="flex items-baseline gap-4">
-                    <span className="eyebrow tabular-nums">{project.index}</span>
-                    <span className="eyebrow">
-                      {project.kind} — {project.year}
-                    </span>
-                  </div>
+          {/* ── Work ─────────────────────────────────────────────── */}
+          <section id="work" className="scroll-mt-24 pb-20 sm:pb-28">
+            <SectionHeading index="01" eyebrow="Selected work" title="Selected work" />
 
-                  <h3 className="display mt-4 text-[clamp(2rem,4.5vw,3rem)]">{project.title}</h3>
-                  <p className="mt-2 text-sm text-ink-faint">{project.client}</p>
-
-                  <dl className="mt-8 space-y-6 text-[0.95rem] leading-relaxed">
-                    <div>
-                      <dt className="eyebrow">The problem</dt>
-                      <dd className="mt-2 text-ink-muted">{project.challenge}</dd>
-                    </div>
-                    <div>
-                      <dt className="eyebrow">What I did</dt>
-                      <dd className="mt-2 text-ink-muted">{project.approach}</dd>
-                    </div>
-                    <div>
-                      <dt className="eyebrow">Result</dt>
-                      <dd className="mt-2 text-ink">{project.outcome}</dd>
-                    </div>
-                  </dl>
-
-                  <div className="mt-8 flex flex-wrap gap-6">
+            <div className="mt-12 space-y-24">
+              {projects.map((project) => (
+                <article key={project.index} className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+                  <div className="reveal lg:col-span-7">
                     <a
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="link-rule text-sm font-medium tracking-[0.08em] text-accent uppercase"
+                      className="group block overflow-hidden border border-line-bright transition-colors hover:border-accent"
                     >
-                      View live ↗
-                    </a>
-                    <a
-                      href={project.source}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link-rule text-sm font-medium tracking-[0.08em] text-ink-muted uppercase"
-                    >
-                      Source ↗
+                      <Image
+                        src={project.image}
+                        alt={project.alt}
+                        width={1600}
+                        height={1000}
+                        sizes="(max-width: 1024px) 100vw, 58vw"
+                        className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
                     </a>
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
 
-        {/* ── Services ───────────────────────────────────────────── */}
-        <section id="services" className="scroll-mt-24 pb-20 sm:pb-28">
-          <SectionHeading index="02" eyebrow="Services" title="Services" />
+                  <div className="reveal lg:col-span-5">
+                    <div className="flex items-center gap-4">
+                      <span className="label label-accent tabular-nums">{project.index}</span>
+                      <span className="label">
+                        {project.kind} / {project.year}
+                      </span>
+                    </div>
 
-          <div className="mt-4">
-            {services.map((service) => (
-              <article
-                key={service.index}
-                className="reveal grid gap-6 border-b border-rule py-10 lg:grid-cols-12 lg:gap-8"
-              >
-                <div className="lg:col-span-4">
-                  <div className="flex items-baseline gap-4">
-                    <span className="eyebrow tabular-nums">{service.index}</span>
-                    <h3 className="display text-[clamp(1.75rem,3.6vw,2.5rem)]">{service.title}</h3>
+                    <h3 className="display mt-4 text-[clamp(2rem,4.5vw,2.75rem)]">
+                      {project.title}
+                    </h3>
+                    <p className="mt-2 font-mono text-xs text-faint">{project.client}</p>
+
+                    <dl className="mt-8 space-y-6 text-[0.95rem] leading-relaxed">
+                      <div>
+                        <dt className="label">The problem</dt>
+                        <dd className="mt-2 text-muted">{project.challenge}</dd>
+                      </div>
+                      <div>
+                        <dt className="label">What I did</dt>
+                        <dd className="mt-2 text-muted">{project.approach}</dd>
+                      </div>
+                      <div>
+                        <dt className="label">Result</dt>
+                        <dd className="mt-2 text-text">{project.outcome}</dd>
+                      </div>
+                    </dl>
+
+                    <div className="mt-8 flex flex-wrap gap-6">
+                      <a
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link-rule font-mono text-xs tracking-[0.1em] text-accent uppercase"
+                      >
+                        View live ↗
+                      </a>
+                      <a
+                        href={project.source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link-rule font-mono text-xs tracking-[0.1em] text-muted uppercase"
+                      >
+                        Source ↗
+                      </a>
+                    </div>
                   </div>
-                  <p className="mt-3 max-w-sm text-[0.95rem] leading-relaxed text-ink-muted">
-                    {service.summary}
-                  </p>
-                </div>
+                </article>
+              ))}
+            </div>
+          </section>
 
-                <ul className="space-y-2.5 text-[0.95rem] text-ink-muted lg:col-span-5">
-                  {service.includes.map((item) => (
-                    <li key={item} className="flex gap-3">
-                      <span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-accent" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+          {/* ── Services ─────────────────────────────────────────── */}
+          <section id="services" className="scroll-mt-24 pb-20 sm:pb-28">
+            <SectionHeading index="02" eyebrow="Services" title="Services" />
 
-                <div className="lg:col-span-3 lg:text-right">
-                  <p className="display text-[clamp(1.6rem,3vw,2.1rem)] whitespace-nowrap">
-                    {service.priceUsd}
-                  </p>
-                  <p className="mt-1 text-sm text-ink-faint">{service.priceRub}</p>
-                  <p className="eyebrow mt-4">Delivered in {service.timeline}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+            <div className="mt-10 grid gap-px bg-line md:grid-cols-3">
+              {services.map((service) => (
+                <article
+                  key={service.index}
+                  className="reveal group flex flex-col bg-bg p-7 transition-colors hover:bg-surface"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="label label-accent tabular-nums">{service.index}</span>
+                    <span className="label">{service.timeline}</span>
+                  </div>
 
-          <p className="reveal mt-6 text-sm text-ink-faint">
-            Fixed price agreed before the work starts — no hourly billing, no surprises.
-          </p>
-        </section>
+                  <h3 className="display mt-6 text-[clamp(1.5rem,2.6vw,1.9rem)]">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{service.summary}</p>
 
-        {/* ── Process ────────────────────────────────────────────── */}
-        <section id="process" className="scroll-mt-24 pb-20 sm:pb-28">
-          <SectionHeading index="03" eyebrow="How it works" title="How it works" />
+                  <ul className="mt-7 space-y-2.5 text-sm text-muted">
+                    {service.includes.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <span aria-hidden className="mt-2 size-1 shrink-0 bg-accent" />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
 
-          <ol className="mt-12 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((step) => (
-              <li key={step.index} className="reveal border-t border-rule pt-5">
-                <span className="eyebrow tabular-nums">{step.index}</span>
-                <h3 className="display mt-4 text-[clamp(1.35rem,2.4vw,1.75rem)]">{step.title}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-muted">{step.body}</p>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {/* ── Contact ────────────────────────────────────────────── */}
-        <section id="contact" className="scroll-mt-24 pb-24 sm:pb-32">
-          <SectionHeading index="04" eyebrow="Contact" title="Contact" />
-
-          <div className="mt-12 grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <p className="display reveal text-[clamp(2.25rem,6vw,4rem)]">
-                Tell me what you need built.
-                <br />
-                <em className="text-accent italic">I&rsquo;ll reply the same day.</em>
-              </p>
-              <p className="reveal mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
-                A link, a rough idea, or a full brief — all of it works. If it isn&rsquo;t something
-                I should take on, I&rsquo;ll say so straight away.
-              </p>
+                  <div className="mt-8 flex items-end justify-between gap-4 border-t border-line pt-5">
+                    <div>
+                      <p className="display text-[clamp(1.5rem,2.6vw,1.9rem)] text-accent">
+                        {service.priceUsd}
+                      </p>
+                      <p className="mt-1 font-mono text-xs text-faint">{service.priceRub}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
             </div>
 
-            <div className="reveal lg:col-span-4 lg:col-start-9">
-              <a
-                href={tg}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-baseline justify-between gap-4 border-t border-rule py-5 transition-colors hover:text-accent"
-              >
-                <span className="eyebrow">Telegram</span>
-                <span className="text-lg">@{site.telegram}</span>
-              </a>
-              <a
-                href={mailto}
-                className="flex items-baseline justify-between gap-4 border-t border-rule py-5 transition-colors hover:text-accent"
-              >
-                <span className="eyebrow">Email</span>
-                <span className="text-sm break-all sm:text-base">{site.email}</span>
-              </a>
-              <a
-                href={site.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-baseline justify-between gap-4 border-y border-rule py-5 transition-colors hover:text-accent"
-              >
-                <span className="eyebrow">GitHub</span>
-                <span className="text-lg">Maria2525007</span>
-              </a>
+            <p className="reveal mt-6 font-mono text-xs text-faint">
+              Fixed price agreed before the work starts — no hourly billing, no surprises.
+            </p>
+          </section>
 
-              <a
-                href={tg}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-8 block bg-accent px-7 py-4 text-center text-sm font-medium tracking-[0.1em] text-paper uppercase transition-colors hover:bg-accent-soft"
-              >
-                Message me on Telegram
-              </a>
+          {/* ── Process ──────────────────────────────────────────── */}
+          <section id="process" className="scroll-mt-24 pb-20 sm:pb-28">
+            <SectionHeading index="03" eyebrow="How it works" title="How it works" />
+
+            <ol className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+              {process.map((step) => (
+                <li key={step.index} className="reveal">
+                  <div className="flex items-center gap-3">
+                    <span className="label label-accent tabular-nums">{step.index}</span>
+                    <span aria-hidden className="h-px flex-1 bg-line" />
+                  </div>
+                  <h3 className="display mt-5 text-[clamp(1.15rem,2vw,1.4rem)]">{step.title}</h3>
+                  <p className="mt-3 text-[0.95rem] leading-relaxed text-muted">{step.body}</p>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          {/* ── Contact ──────────────────────────────────────────── */}
+          <section id="contact" className="scroll-mt-24 pb-24 sm:pb-32">
+            <SectionHeading index="04" eyebrow="Contact" title="Contact" />
+
+            <div className="mt-12 grid gap-10 lg:grid-cols-12">
+              <div className="lg:col-span-7">
+                <p className="display reveal text-[clamp(2rem,5.4vw,3.5rem)]">
+                  Tell me what you need built.
+                  <br />
+                  <span className="text-accent">I&rsquo;ll reply the same day.</span>
+                </p>
+                <p className="reveal mt-7 max-w-lg text-lg leading-relaxed text-muted">
+                  A link, a rough idea, or a full brief — all of it works. If it isn&rsquo;t
+                  something I should take on, I&rsquo;ll say so straight away.
+                </p>
+              </div>
+
+              <div className="reveal lg:col-span-4 lg:col-start-9">
+                <a
+                  href={tg}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-4 border-t border-line py-5 transition-colors hover:text-accent"
+                >
+                  <span className="label">Telegram</span>
+                  <span className="font-mono text-sm">@{site.telegram}</span>
+                </a>
+                <a
+                  href={mailto}
+                  className="flex items-center justify-between gap-4 border-t border-line py-5 transition-colors hover:text-accent"
+                >
+                  <span className="label">Email</span>
+                  <span className="font-mono text-xs break-all sm:text-sm">{site.email}</span>
+                </a>
+                <a
+                  href={site.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-4 border-y border-line py-5 transition-colors hover:text-accent"
+                >
+                  <span className="label">GitHub</span>
+                  <span className="font-mono text-sm">Maria2525007</span>
+                </a>
+
+                <a
+                  href={tg}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="glow-accent mt-8 block bg-accent px-7 py-4 text-center font-mono text-sm font-medium tracking-[0.08em] text-accent-ink uppercase hover:bg-accent-dim"
+                >
+                  Message me on Telegram
+                </a>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
 
-      <footer className="relative z-10 border-t border-rule">
-        <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-5 py-8 text-sm text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <footer className="relative z-10 border-t border-line">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-3 px-5 py-8 font-mono text-xs text-faint sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <span>
             © {new Date().getFullYear()} {site.name}
           </span>
-          <span>Built with Next.js — deployed on Vercel</span>
+          <span>Next.js — deployed on Vercel</span>
         </div>
       </footer>
     </>

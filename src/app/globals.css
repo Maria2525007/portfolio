@@ -1,75 +1,119 @@
 @import "tailwindcss";
 
 /*
-  Editorial / quiet-luxury system.
-  Warm paper + warm near-black ink + a single oxblood accent used sparingly.
-  Hairline rules are the primary structural device — no cards, no shadows.
+  Dark technical system.
+  Near-black base, a fine grid, one acid-lime accent, monospace metadata.
+  Colour is carried by the accent and the work itself — never by gradients.
 */
 
 :root {
-  --paper: #f6f4f0;
-  --paper-deep: #edeae3;
-  --ink: #17140f;
-  --ink-muted: #5c574f;
-  --ink-faint: #8b857a;
-  --rule: #ddd7cd;
-  --accent: #6e2a28;
-  --accent-soft: #8f3b36;
+  --bg: #08090c;
+  --surface: #0e1017;
+  --surface-2: #13161f;
+  --line: #1e2331;
+  --line-bright: #2c3346;
+  --text: #e9ecf4;
+  --muted: #959bad;
+  --faint: #646c80;
+  --accent: #ccff00;
+  --accent-dim: #a3cc00;
+  --accent-ink: #08090c;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-paper: var(--paper);
-  --color-paper-deep: var(--paper-deep);
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-ink-faint: var(--ink-faint);
-  --color-rule: var(--rule);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-bright: var(--line-bright);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
   --color-accent: var(--accent);
-  --color-accent-soft: var(--accent-soft);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-ink: var(--accent-ink);
 
-  --font-display: var(--font-instrument-serif);
-  --font-sans: var(--font-schibsted);
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
-  background-color: var(--paper);
-  color: var(--ink);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  font-synthesis-weight: none;
-  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Paper grain — pure SVG, no image request. Sits under everything, never intercepts input. */
+/* Fixed grid + a single cold glow behind everything. Pure CSS, no requests. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 88px 88px;
+  opacity: 0.32;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
 }
 
-/* Editorial metadata label: letterspaced caps, never mono. */
-.eyebrow {
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 70% 45% at 50% -8%,
+    color-mix(in srgb, var(--accent) 9%, transparent),
+    transparent 70%
+  );
+}
+
+/* Monospace micro-label. The only place tracking goes wide. */
+.label {
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   line-height: 1;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-faint);
+  color: var(--faint);
+}
+
+/*
+  .label sets its own colour and lives outside Tailwind's layers, so utilities
+  like `text-accent` cannot override it — these modifiers exist for that.
+*/
+.label-accent {
+  color: var(--accent);
+}
+
+.label-bright {
+  color: var(--text);
 }
 
 .display {
-  font-family: var(--font-display), ui-serif, Georgia, serif;
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 0.98;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-transform: uppercase;
 }
 
-/* Link underline that grows from the left on hover. */
+.display-soft {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+/* Hairline that lights up on hover, used under inline links. */
 .link-rule {
   background-image: linear-gradient(currentColor, currentColor);
   background-position: 0 100%;
@@ -86,6 +130,31 @@ body::before {
   }
 }
 
+.glow-accent {
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent);
+  transition:
+    box-shadow 0.4s ease,
+    background-color 0.25s ease;
+}
+.glow-accent:hover {
+  box-shadow: 0 0 28px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Ticker under the hero. Track is duplicated in markup for a seamless loop. */
+.ticker {
+  display: flex;
+  width: max-content;
+  animation: ticker 38s linear infinite;
+}
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /*
   Scroll reveals are opt-in: content is visible by default and only hides once
   JS has confirmed it can bring it back (`js-reveal` on <html>). A broken
@@ -93,10 +162,10 @@ body::before {
 */
 .js-reveal .reveal {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(16px);
   transition:
-    opacity 0.9s cubic-bezier(0.2, 0.6, 0.2, 1),
-    transform 0.9s cubic-bezier(0.2, 0.6, 0.2, 1);
+    opacity 0.8s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
 }
 .js-reveal .reveal.is-visible {
   opacity: 1;
@@ -105,13 +174,12 @@ body::before {
 
 ::selection {
   background-color: var(--accent);
-  color: var(--paper);
+  color: var(--accent-ink);
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 1px;
 }
 
 html {
@@ -121,6 +189,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .ticker {
+    animation: none;
   }
   .js-reveal .reveal {
     opacity: 1;
