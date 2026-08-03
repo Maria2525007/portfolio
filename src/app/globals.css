@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
+/*
+  Editorial / quiet-luxury system.
+  Warm paper + warm near-black ink + a single oxblood accent used sparingly.
+  Hairline rules are the primary structural device — no cards, no shadows.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f6f4f0;
+  --paper-deep: #edeae3;
+  --ink: #17140f;
+  --ink-muted: #5c574f;
+  --ink-faint: #8b857a;
+  --rule: #ddd7cd;
+  --accent: #6e2a28;
+  --accent-soft: #8f3b36;
+
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-schibsted);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+/* Paper grain — pure SVG, no image request. Sits under everything, never intercepts input. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Editorial metadata label: letterspaced caps, never mono. */
+.eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 0.98;
+}
+
+/* Link underline that grows from the left on hover. */
+.link-rule {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+@media (hover: hover) {
+  .link-rule {
+    background-size: 0% 1px;
+  }
+  .link-rule:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* Scroll + load reveals. Elements start hidden only when JS can restore them. */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.9s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.9s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
