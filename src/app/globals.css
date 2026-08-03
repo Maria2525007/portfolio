@@ -86,15 +86,19 @@ body::before {
   }
 }
 
-/* Scroll + load reveals. Elements start hidden only when JS can restore them. */
-.reveal {
+/*
+  Scroll reveals are opt-in: content is visible by default and only hides once
+  JS has confirmed it can bring it back (`js-reveal` on <html>). A broken
+  observer, a blocking extension, or no JS at all leaves the page fully readable.
+*/
+.js-reveal .reveal {
   opacity: 0;
   transform: translateY(14px);
   transition:
     opacity 0.9s cubic-bezier(0.2, 0.6, 0.2, 1),
     transform 0.9s cubic-bezier(0.2, 0.6, 0.2, 1);
 }
-.reveal.is-visible {
+.js-reveal .reveal.is-visible {
   opacity: 1;
   transform: none;
 }
@@ -118,7 +122,7 @@ html {
   html {
     scroll-behavior: auto;
   }
-  .reveal {
+  .js-reveal .reveal {
     opacity: 1;
     transform: none;
     transition: none;

@@ -54,9 +54,6 @@ export default function RootLayout({
       className={`${instrumentSerif.variable} ${schibsted.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <noscript>
-          <style>{`.reveal{opacity:1;transform:none}`}</style>
-        </noscript>
         {children}
         <script
           type="application/ld+json"
