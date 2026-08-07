@@ -83,12 +83,14 @@ export default function BookingForm() {
         <h3 className="display-md mt-4 text-[1.75rem] sm:text-[2rem]">
           Записали, {sent.name.trim()}
         </h3>
+        {/* The pet name comes from the visitor and cannot be declined, so the
+            sentence is built to keep it in the nominative. */}
         <p className="mt-4 text-[1rem] leading-relaxed text-ink-soft">
           Позвоним на{" "}
           <span className="tnum font-medium text-ink">{sent.phone}</span> в
           течение 15 минут в рабочие часы, подтвердим окно{" "}
           <span className="text-ink">«{sent.slot.toLowerCase()}»</span> и
-          подберём мастера для{" "}
+          подберём мастера. Питомец:{" "}
           <span className="text-ink">{sent.pet.trim()}</span>.
         </p>
         <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
