@@ -1,0 +1,311 @@
+@import "tailwindcss";
+
+/*
+  РАЗБОР — printed-programme system.
+
+  The page behaves like a printed event programme: ink-navy stock, hairline
+  rules instead of card shadows, mono numerals for anything countable, and one
+  full-bleed inversion onto bone paper where the timetable lives.
+  Every colour pair below was measured against WCAG before being used.
+*/
+
+:root {
+  /* ink side */
+  --ink: #0b1017;
+  --ink-2: #101822;
+  --ink-3: #16202c;
+  --line: #202c3a;
+  --line-2: #2d3a4a;
+  --text: #f4f1ea; /* 16.91 on ink — AAA */
+  --muted: #a3afbc; /*  8.55 on ink — AAA */
+  --faint: #7e8c9c; /*  5.56 on ink — AA  */
+
+  /* paper side */
+  --paper: #ede7dc;
+  --paper-2: #e2dacb;
+  --paper-line: #cdc3b1;
+  --paper-ink: #141c26; /* 13.94 on paper — AAA */
+  --paper-muted: #4e5a66; /*  5.73 on paper — AA  */
+  --paper-faint: #5a6672; /*  4.77 on paper — AA  */
+
+  /* single accent, two tunings so it stays legible on both stocks */
+  --accent: #e4553c; /*  5.15 on ink   — AA */
+  --accent-soft: #f2705a; /*  6.58 on ink   — AA */
+  --accent-paper: #b33019; /*  5.09 on paper — AA */
+
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-line: var(--paper-line);
+  --color-paper-ink: var(--paper-ink);
+  --color-paper-muted: var(--paper-muted);
+  --color-paper-faint: var(--paper-faint);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-paper: var(--accent-paper);
+
+  --font-display: var(--font-oswald);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-plex-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+  /*
+    Belt-and-braces against sideways drift: a single mis-measured child on a
+    390px screen would otherwise scroll the whole document.
+  */
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--ink);
+  color: var(--text);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------------------------------------------------------------- type --- */
+
+/*
+  Oswald is condensed, so it takes wider tracking than a normal grotesk to stay
+  readable in Cyrillic all-caps. These two classes carry the whole hierarchy.
+*/
+.display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: 0.005em;
+}
+
+.display-num {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  line-height: 0.82;
+  letter-spacing: -0.015em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.label-accent {
+  color: var(--accent-soft);
+}
+.label-bright {
+  color: var(--text);
+}
+.label-paper {
+  color: var(--paper-faint);
+}
+
+/* Anything countable — times, prices, seat numbers — is tabular mono. */
+.num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ------------------------------------------------------------ ornament --- */
+
+/*
+  The rule under section headings. Hairline on the left, accent tick on the
+  right — the one repeated decorative gesture on the page.
+*/
+.rule {
+  border-top: 1px solid var(--line);
+}
+.rule-paper {
+  border-top: 1px solid var(--paper-line);
+}
+
+.tick::before {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 2px;
+  background: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+/* Ledger row: hairline separated, hover lifts the ink a notch. */
+.ledger-row {
+  border-top: 1px solid var(--line);
+  transition: background-color 0.3s ease;
+}
+@media (hover: hover) {
+  .ledger-row:hover {
+    background-color: var(--ink-2);
+  }
+}
+
+.ledger-row-paper {
+  border-top: 1px solid var(--paper-line);
+  transition: background-color 0.3s ease;
+}
+@media (hover: hover) {
+  .ledger-row-paper:hover {
+    background-color: var(--paper-2);
+  }
+}
+
+/* ---------------------------------------------------------------- cta ---- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--accent);
+  color: var(--ink);
+  padding: 1.05rem 2rem;
+  border: 1px solid var(--accent);
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+@media (hover: hover) {
+  .btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent-soft);
+    transform: translateY(-2px);
+  }
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line-2);
+}
+@media (hover: hover) {
+  .btn-ghost:hover {
+    background: transparent;
+    border-color: var(--accent);
+    color: var(--accent-soft);
+    transform: translateY(-2px);
+  }
+}
+
+/* Underline that draws in on hover — used on inline links only. */
+.link-rule {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+@media (hover: hover) {
+  .link-rule {
+    background-size: 0% 1px;
+  }
+  .link-rule:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------------------------------------------------------------- form --- */
+
+.field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-2);
+  color: var(--text);
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.0625rem;
+  padding: 0.75rem 0;
+  transition: border-color 0.25s ease;
+}
+.field::placeholder {
+  color: var(--faint);
+}
+.field:focus {
+  outline: none;
+  border-bottom-color: var(--accent);
+}
+.field[aria-invalid="true"] {
+  border-bottom-color: var(--accent);
+}
+
+/* --------------------------------------------------------------- media --- */
+
+/*
+  Photography is treated as printed halftone: desaturated a touch and pushed
+  toward the ink so it never competes with the type.
+*/
+.photo-ink {
+  filter: saturate(0.72) contrast(1.06) brightness(0.88);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------- reveals --- */
+
+/*
+  Opt-in reveals: content ships visible and only hides once JS has confirmed it
+  can bring it back. No JS, blocked script, or dead observer still reads fine.
+*/
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
