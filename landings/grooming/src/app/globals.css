@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/*
+  ВОРС — warm editorial system.
+  Cream paper, warm ink, one marigold pulled straight out of the hero photograph,
+  deep pine as the only dark. No gradients doing the work of colour; the animals
+  carry the colour. Shapes come from the trade: arched mirrors, comb teeth.
+*/
+
+:root {
+  --cream: #fbf5ea;
+  --paper: #fffcf5;
+  --sand: #f1e6d2;
+  --sand-deep: #e6d5ba;
+  --ink: #241b12;
+  --ink-soft: #4a3b2c;
+  --muted: #7d6c58;
+  --faint: #a2917b;
+  --line: #e0d2ba;
+  --pine: #24352a;
+  --pine-soft: #35493a;
+  --marigold: #f2b01e;
+  --marigold-deep: #d9970c;
+  --rust: #c2542a;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-cream: var(--cream);
+  --color-paper: var(--paper);
+  --color-sand: var(--sand);
+  --color-sand-deep: var(--sand-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-pine: var(--pine);
+  --color-pine-soft: var(--pine-soft);
+  --color-marigold: var(--marigold);
+  --color-marigold-deep: var(--marigold-deep);
+  --color-rust: var(--rust);
+
+  --font-display: var(--font-vollkorn);
+  --font-sans: var(--font-onest);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header height + breathing room, so anchors never land under it. */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  /*
+    Belt and braces against horizontal scroll: decorative blooms are absolutely
+    positioned and can reach past the viewport on narrow screens.
+  */
+  overflow-x: hidden;
+}
+
+/* ---------- Type ---------- */
+
+.display {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+}
+
+.display-md {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+
+/*
+  Highlighter for a phrase inside a headline. Drawn as a thick underline rather
+  than a background box: the headline runs at line-height 0.98, where a
+  background band lands under the glyphs instead of across them, and an
+  absolutely positioned bar would force the phrase onto its own line.
+  text-decoration wraps per line for free.
+*/
+.marker {
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in srgb, var(--marigold) 85%, transparent);
+  text-decoration-thickness: 0.16em;
+  text-underline-offset: -0.03em;
+  text-decoration-skip-ink: none;
+}
+
+/* Small wide-tracked label. The only place tracking opens up. */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.eyebrow-light {
+  color: color-mix(in srgb, var(--cream) 72%, transparent);
+}
+
+/* Prices and phone numbers must line up column to column. */
+.tnum {
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+/*
+  Vollkorn ships oldstyle figures by default, which is lovely in a sentence and
+  wrong for a standalone stat — its "0" reads as a lowercase o. Force lining
+  figures wherever a numeral has to be read as a number.
+*/
+.lnum {
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+
+/* ---------- Shapes from the trade ---------- */
+
+/* Arched mirror — the studio's signature frame. */
+.arch {
+  border-radius: 999px 999px 1.5rem 1.5rem;
+  overflow: hidden;
+}
+
+.arch-sm {
+  border-radius: 7rem 7rem 1rem 1rem;
+  overflow: hidden;
+}
+
+/*
+  Comb teeth. A row of rounded prongs used as a section transition — the one
+  decorative motif on the page, and it comes from the tools, not from clip art.
+*/
+.comb {
+  height: 14px;
+  background-image: radial-gradient(
+    circle at 7px 0,
+    currentColor 6px,
+    transparent 6.5px
+  );
+  background-size: 14px 14px;
+  background-repeat: repeat-x;
+}
+
+.comb-up {
+  height: 14px;
+  background-image: radial-gradient(
+    circle at 7px 14px,
+    currentColor 6px,
+    transparent 6.5px
+  );
+  background-size: 14px 14px;
+  background-repeat: repeat-x;
+}
+
+.comb-xs {
+  height: 7px;
+  background-image: radial-gradient(
+    circle at 3.5px 0,
+    currentColor 3px,
+    transparent 3.4px
+  );
+  background-size: 7px 7px;
+  background-repeat: repeat-x;
+}
+
+/* ---------- Controls ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background-color: var(--marigold);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--marigold-deep);
+}
+
+@media (hover: hover) {
+  .btn-primary:hover {
+    background-color: var(--marigold-deep);
+  }
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+@media (hover: hover) {
+  .btn-ghost:hover {
+    background-color: var(--ink);
+    color: var(--cream);
+  }
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.875rem;
+  background-color: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: 0.9rem 1rem;
+  font-size: 1rem;
+  color: var(--ink);
+  transition:
+    box-shadow 0.16s ease,
+    background-color 0.16s ease;
+}
+
+.field::placeholder {
+  color: var(--faint);
+}
+
+.field:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+
+.field-error {
+  box-shadow: inset 0 0 0 2px var(--rust);
+}
+
+/* Native select arrow is ugly and inconsistent — draw our own. */
+.field-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%237d6c58' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px 8px;
+  padding-right: 2.5rem;
+}
+
+/* Underline that draws itself in on hover. */
+.rule-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.3s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .rule-link {
+    background-size: 0% 1px;
+  }
+  .rule-link:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- Reveals ---------- */
+
+/*
+  Opt-in: content is visible by default and only hides once JS confirms it can
+  bring it back. No JS, blocked script or dead observer still leaves a readable
+  page.
+*/
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+::selection {
+  background-color: var(--marigold);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
