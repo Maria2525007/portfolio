@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — daysnotweeks
 
-## Getting Started
+My freelance site: [daysnotweeks.vercel.app](https://daysnotweeks.vercel.app). One
+scrolling page — work, services, process, contact — content-driven from a single
+`src/content.ts` file rather than scattered across components.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4. No CMS, no database —
+all copy and case-study data lives in `content.ts`.
+
+## Structure
+
+```
+src/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx          # assembles the page from content.ts
+│   └── globals.css
+├── components/
+│   └── ScrollReveal.tsx  # scroll-triggered section reveals
+└── content.ts             # site copy, services, pricing, case studies
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Case studies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Currently live: **Time League** for Raketa watch manufactory (via agency) — a
+dark, cosmic single-page site for a private collectors' club, hand-written HTML/CSS,
+no framework. See [raketa](https://github.com/Maria2525007/raketa).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Four more cases (cat-feeder, grooming, photo-course, finance-intensive) are in
+progress of being added.
 
-## Learn More
+## Services offered
 
-To learn more about Next.js, take a look at the following resources:
+Landing page, Telegram bot, or a small multi-page site/web app — pricing and delivery
+timelines are defined in `content.ts` under `services`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Running it
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev
+```
